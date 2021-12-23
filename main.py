@@ -23,8 +23,8 @@ def get_info(info, file):
 			return(line[len(info)+3:])
 				
 def install():
-	command='pacman --noconfirm -U '+sys.argv[1]
-	
+	commandInstall=('pacman --noconfirm -U '+sys.argv[1])
+
 def is_deb(packageFile):
 	packageMime = magic.from_file(packageFile, mime=True)
 	if packageMime == 'application/zstd':
