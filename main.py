@@ -3,9 +3,9 @@ import gi
 import tarfile
 import random
 import os
+import pexpect
 import subprocess
 import zstandard
-import getpass
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 import sys
@@ -23,8 +23,11 @@ def get_info(info, file):
 			return(line[len(info)+3:])
 				
 def install():
-	commandInstall=('pacman --noconfirm -U '+sys.argv[1])
-
+	su = pexpect.spawn("su")
+	su.logfile_read = sys.stdout
+	su.sendline(password)
+	commandInstall = ('pacman --noconfirm -U '+packageFile)
+	
 def is_deb(packageFile):
 	packageMime = magic.from_file(packageFile, mime=True)
 	if packageMime == 'application/zstd':
@@ -107,7 +110,7 @@ def draw_gui():
 	size.set_label("size: "+prefix_size+str(sizepkg_text))
 	#icons
 	icon = builder.get_object("icon")
-	icon.set_from_file("/home/"+getpass.getuser()+"/.local/share/icons/Papirus-Breeze-Dark/128x128/apps/"+str(title_text)+".svg")
+	icon.set_from_file("/home/_7f-45-4c-46/.local/share/icons/Papirus-Breeze-Dark/128x128/apps/"+str(title_text)+".svg")
 	#show window
 	window.set_title("installing "+str(title_text))
 	window.show_all()
