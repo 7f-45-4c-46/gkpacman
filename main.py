@@ -25,6 +25,7 @@ def get_info(info, file):
 def install():
 	su = pexpect.spawn("su")
 	su.logfile_read = sys.stdout
+	su.expect("Password:")
 	su.sendline(password)
 	commandInstall = ('pacman --noconfirm -U '+packageFile)
 	
